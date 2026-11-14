@@ -4,6 +4,9 @@ export const SITE = "https://dynaura.ashutoshswamy.in";
 export const NPM = "https://www.npmjs.com/package/dynaura";
 export const REPO = "https://github.com/ashutoshswamy/dynaura";
 
+const OG_ALT =
+  "The dynaura logo and the headline Toasts that move like a Dynamic Island, beside a stack of three toasts: a boarding pass card, a saved confirmation and an upload at 64 percent.";
+
 export const author = {
   "@type": "Person",
   name: "Ashutosh Swamy",
@@ -39,9 +42,9 @@ export function pageMeta({
       title: full,
       description,
       locale: "en_US",
-      images: [{ url: "/opengraph-image.png", width: 1200, height: 630, alt: "dynaura: Dynamic Island toasts for the web" }],
+      images: [{ url: "/opengraph-image.png", width: 1200, height: 630, alt: OG_ALT }],
     },
-    twitter: { card: "summary_large_image", title: full, description, images: ["/twitter-image.png"] },
+    twitter: { card: "summary_large_image", title: full, description, images: [{ url: "/twitter-image.png", alt: OG_ALT }] },
   };
 }
 
