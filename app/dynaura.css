@@ -1,4 +1,4 @@
-/* copied from dynaura/dist/styles.css (v0.1.0) minus the Google Fonts @import, so the site makes no extra font request. Re-copy when upgrading the package. */
+/* copied from dynaura/dist/styles.css (v0.1.1) minus the Google Fonts @import, so the site makes no extra font request. Re-copy when upgrading the package. */
 
 .dynaura-root {
   --dynaura-font: "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
