@@ -54,14 +54,14 @@ export function DocPage({
     <div className="flex gap-14">
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(ld)} />
       <article className="doc min-w-0 flex-1 pb-8">
-        <header>
+        <header className="rounded-[28px] bg-accent-soft p-6 sm:p-10">
           {Icon && (
-            <span className="mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-ink text-accent">
-              <Icon className="h-7 w-7" aria-hidden />
+            <span className="mb-8 flex h-14 w-14 items-center justify-center rounded-full bg-island text-accent sm:h-16 sm:w-16">
+              <Icon className="h-7 w-7 sm:h-8 sm:w-8" aria-hidden />
             </span>
           )}
-          <h1 className="text-[clamp(1.85rem,8.6vw,2.6rem)] font-bold tracking-[-0.035em] break-words sm:text-5xl lg:text-[3.4rem]">{title}</h1>
-          <p className="!mt-4 !max-w-[56ch] text-lg leading-relaxed sm:text-xl">{lead}</p>
+          <h1 className="text-[clamp(2.25rem,9vw,3rem)] leading-[1.04] font-bold tracking-[-0.04em] break-words sm:text-6xl lg:text-[4.25rem]">{title}</h1>
+          <p className="!mt-5 !max-w-[52ch] text-lg leading-relaxed !text-ink/70 sm:text-xl">{lead}</p>
         </header>
 
         {/* below xl the right rail is hidden, so the same anchors run as a scrolling row */}
@@ -107,17 +107,19 @@ function PageLink({ dir, title, href, description }: { dir: "prev" | "next"; tit
   return (
     <Link
       href={href}
-      className={`plain group flex flex-col gap-1 rounded-[20px] border border-line bg-surface p-5 transition-[border-color,transform] hover:border-ink/40 active:scale-[0.99] ${
-        dir === "next" ? "items-end text-right sm:col-start-2" : ""
+      className={`plain group flex flex-col gap-1 rounded-[24px] p-6 transition-[background-color,transform] active:scale-[0.99] ${
+        dir === "next"
+          ? "on-dark items-end bg-island text-right text-island-fg hover:bg-[#161a16] sm:col-start-2"
+          : "border border-line bg-surface hover:bg-accent-soft"
       }`}
     >
-      <span className="flex items-center gap-1.5 text-sm text-muted">
+      <span className={`flex items-center gap-1.5 text-sm ${dir === "next" ? "text-accent" : "text-muted"}`}>
         {dir === "prev" && <ArrowLeftIcon className="h-3.5 w-3.5" aria-hidden />}
         {dir === "prev" ? "Previous" : "Next"}
         {dir === "next" && <ArrowRightIcon className="h-3.5 w-3.5" aria-hidden />}
       </span>
       <span className="font-display text-xl font-semibold tracking-tight">{title}</span>
-      <span className="text-sm text-muted">{description}</span>
+      <span className={`text-sm ${dir === "next" ? "text-island-fg/65" : "text-muted"}`}>{description}</span>
     </Link>
   );
 }
@@ -136,8 +138,10 @@ export function H2({ id, children }: { id: string; children: ReactNode }) {
 
 export function Callout({ children, title }: { children: ReactNode; title?: string }) {
   return (
-    <aside className="my-7 flex gap-4 rounded-[20px] bg-accent-soft p-5 text-[0.95rem] [&_p]:!mb-0 [&_p]:!text-ink">
-      <InformationCircleIcon className="mt-0.5 h-5 w-5 flex-none text-accent-ink" aria-hidden />
+    <aside className="my-7 flex gap-4 rounded-[24px] border border-line bg-surface p-5 text-[0.95rem] [&_p]:!mb-0 [&_p]:!text-ink">
+      <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-accent-soft text-accent-ink">
+        <InformationCircleIcon className="h-5 w-5" aria-hidden />
+      </span>
       <div>
         {title && <p className="!mb-1 font-display text-base font-semibold">{title}</p>}
         {children}
@@ -153,7 +157,7 @@ export function DemoBar({ children }: { children: ReactNode }) {
 
 export function Table({ head, rows }: { head: string[]; rows: ReactNode[][] }) {
   return (
-    <div className="my-6 overflow-x-auto">
+    <div className="my-7 overflow-x-auto rounded-[24px] border border-line bg-surface">
       <table className="doc-table">
         <thead>
           <tr>
@@ -184,9 +188,9 @@ export type Option = { name: string; type?: string; def?: string; required?: boo
  */
 export function OptionList({ items }: { items: Option[] }) {
   return (
-    <dl className="my-6">
+    <dl className="my-7 overflow-hidden rounded-[24px] border border-line bg-surface">
       {items.map((o) => (
-        <div key={o.name} className="border-t border-line py-5 first:border-t-0 first:pt-2">
+        <div key={o.name} className="border-t border-line px-6 py-5 transition-colors first:border-t-0 hover:bg-accent-soft/50">
           <dt className="flex flex-wrap items-center gap-x-3 gap-y-2">
             <code className="!border-0 !bg-transparent !p-0 !text-[1rem] !font-semibold">{o.name}</code>
             {o.type && <code className="!rounded-full !px-2.5 !py-0.5 !text-[0.78rem] break-words !whitespace-normal text-muted">{o.type}</code>}

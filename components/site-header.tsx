@@ -3,6 +3,8 @@ import Link from "next/link";
 import { FaGithub, FaNpm } from "react-icons/fa6";
 import { links } from "./nav";
 import { MobileNav } from "./mobile-nav";
+import { HeaderSearch } from "./header-search";
+import { NavTabs } from "./nav-tabs";
 
 const socials = [
   { label: "npm", href: links.npm, Icon: FaNpm },
@@ -19,20 +21,15 @@ export function Logo() {
 }
 
 export function SiteHeader() {
-  const link = "rounded-full px-3.5 py-2 text-sm font-medium text-muted transition-colors hover:text-ink";
   return (
-    <header className="sticky top-0 z-30">
+    <header className="sticky top-0 z-30" style={{ viewTransitionName: "site-header" }}>
       {/* blur lives on its own layer: backdrop-filter on the header would trap the fixed mobile menu inside it */}
       <div aria-hidden className="absolute inset-0 border-b border-line bg-bg/85 backdrop-blur-md" />
       <div className="relative mx-auto flex h-16 max-w-[1400px] items-center justify-between px-4 sm:px-6">
         <Logo />
-        <nav aria-label="Primary" className="flex items-center gap-1">
-          <Link href="/docs" className={`${link} hidden sm:block`}>
-            Docs
-          </Link>
-          <Link href="/docs/api" className={`${link} hidden sm:block`}>
-            API
-          </Link>
+        <div className="flex items-center gap-1">
+          <HeaderSearch />
+          <NavTabs />
           <ul className="mx-1 hidden items-center gap-1.5 lg:flex">
             {socials.map(({ label, href, Icon }) => (
               <li key={label}>
@@ -48,7 +45,7 @@ export function SiteHeader() {
             ))}
           </ul>
           <MobileNav />
-        </nav>
+        </div>
       </div>
     </header>
   );

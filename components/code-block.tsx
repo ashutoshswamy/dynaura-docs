@@ -15,8 +15,8 @@ export async function highlight(code: string, lang: string) {
 export async function Code({ code, lang = "tsx", title }: { code: string; lang?: string; title?: string }) {
   const html = await highlight(code, lang);
   return (
-    <figure className="my-6 overflow-hidden rounded-[20px] border border-line bg-code">
-      <div className="flex items-center justify-between border-b border-line px-4 py-2 text-xs text-muted">
+    <figure className="on-dark my-7 overflow-hidden rounded-[24px] bg-island text-island-fg">
+      <div className="flex items-center justify-between px-5 pt-3 pb-1 text-xs text-island-fg/60">
         <span>{title ?? lang}</span>
         <CopyButton text={code.trim()} />
       </div>

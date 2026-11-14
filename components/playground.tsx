@@ -4,6 +4,7 @@ import { useId, useState, type ReactNode } from "react";
 import { dynaura, type ToastOptions } from "dynaura";
 import { PlayIcon } from "@heroicons/react/16/solid";
 import { CopyButton } from "./copy-button";
+import { JellySlider } from "./jelly-slider";
 import { positions } from "./theme-demo";
 import { setToaster, useToasterConfig, type ThemeChoice } from "./toaster-store";
 
@@ -11,7 +12,7 @@ type Kind = "success" | "error" | "warning" | "info" | "loading" | "live";
 const kinds: Kind[] = ["success", "error", "warning", "info", "loading", "live"];
 
 const field =
-  "w-full rounded-full border border-line bg-bg px-4 py-2.5 text-base text-ink placeholder:text-muted sm:text-sm focus-visible:border-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
+  "w-full rounded-full border border-line bg-bg px-4 py-2.5 text-base text-ink placeholder:text-muted sm:text-sm focus-visible:border-ink focus-visible:outline-none";
 
 function Field({ label, children }: { label: string; children: (id: string) => ReactNode }) {
   const id = useId();
@@ -164,19 +165,10 @@ export function Playground() {
           options={["dark", "light", "system", "custom"]}
           onChange={(theme) => setToaster({ theme })}
         />
-        <Field label={`offset: ${cfg.offset}px`}>
-          {(id) => (
-            <input
-              id={id}
-              type="range"
-              min={0}
-              max={160}
-              value={cfg.offset}
-              onChange={(e) => setToaster({ offset: Number(e.target.value) })}
-              className="w-full accent-[var(--accent)]"
-            />
-          )}
-        </Field>
+        <div className="grid gap-1">
+          <span className="text-sm font-medium">offset: {cfg.offset}px</span>
+          <JellySlider label="offset" min={0} max={160} value={cfg.offset} onChange={(offset) => setToaster({ offset })} format={(v) => `${v}`} />
+        </div>
         <div className="grid gap-2">
           <Switch label="queue" checked={cfg.queue} onChange={(queue) => setToaster({ queue })} />
           <Switch label="timer bar" checked={cfg.timer} onChange={(timer) => setToaster({ timer })} />
@@ -210,20 +202,10 @@ export function Playground() {
         </Field>
         <Seg<"4000" | "8000" | "sticky"> label="duration (ms)" value={duration} options={["4000", "8000", "sticky"]} onChange={setDuration} />
         {kind === "loading" && (
-          <Field label={`progress: ${Math.round(progress * 100)}%`}>
-            {(id) => (
-              <input
-                id={id}
-                type="range"
-                min={0}
-                max={1}
-                step={0.01}
-                value={progress}
-                onChange={(e) => setProgress(Number(e.target.value))}
-                className="w-full accent-[var(--accent)]"
-              />
-            )}
-          </Field>
+          <div className="grid gap-1">
+            <span className="text-sm font-medium">progress: {Math.round(progress * 100)}%</span>
+            <JellySlider label="progress" min={0} max={1} step={0.01} value={progress} onChange={setProgress} format={(v) => `${Math.round(v * 100)}`} />
+          </div>
         )}
         {kind === "live" && <Switch label='kind: "wave"' checked={wave} onChange={setWave} />}
         <div className="grid gap-2">

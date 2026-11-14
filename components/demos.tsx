@@ -8,7 +8,6 @@ import {
   ArrowUpTrayIcon,
   CalendarDaysIcon,
   CheckCircleIcon,
-  MicrophoneIcon,
   TicketIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline";
@@ -143,41 +142,36 @@ export function Try({ id, children, variant = "solid" }: { id: DemoId; children?
   );
 }
 
-/** Hero panel: dark brand panel in the same language as the feature explorer and footer. */
-export function HeroPanel({ codeHtml }: { codeHtml: string }) {
-  const rows = [
-    { id: "success", label: "Success", Icon: CheckCircleIcon },
-    { id: "error", label: "Error with action", Icon: XCircleIcon },
-    { id: "promise", label: "Promise", Icon: ArrowPathIcon },
-    { id: "progress", label: "Progress", Icon: ArrowUpTrayIcon },
-    { id: "live", label: "Live activity", Icon: MicrophoneIcon },
-    { id: "card", label: "Rich card", Icon: TicketIcon },
-  ] satisfies { id: DemoId; label: string; Icon: typeof CheckCircleIcon }[];
+const setlist = [
+  { id: "success", title: "Success", body: "A quiet confirmation.", Icon: CheckCircleIcon },
+  { id: "error", title: "Error", body: "With an action to retry.", Icon: XCircleIcon },
+  { id: "promise", title: "Promise", body: "Loading, then done.", Icon: ArrowPathIcon },
+  { id: "progress", title: "Progress", body: "A live upload bar.", Icon: ArrowUpTrayIcon },
+  { id: "card", title: "Rich card", body: "A boarding pass, in the island.", Icon: TicketIcon },
+] satisfies { id: DemoId; title: string; body: string; Icon: typeof CheckCircleIcon }[];
+
+/** Hero setlist: five rows, each fires the real island at the top of the page on click. */
+export function HeroSetlist() {
   return (
-    <div className="on-dark rounded-[28px] bg-island p-6 text-island-fg sm:p-8">
-      <h2 className="font-display text-3xl font-semibold tracking-[-0.03em]">Try it live</h2>
-      <p className="mt-2 flex items-center gap-2 text-island-fg/65">
-        <ArrowUpIcon className="h-4 w-4 flex-none text-accent" aria-hidden />
-        The island appears at the top of the page.
-      </p>
-      <div className="mt-7 grid grid-cols-[minmax(0,1fr)] gap-2 sm:grid-cols-2">
-        {rows.map(({ id, label, Icon }) => (
+    <ul aria-label="Try a toast" className="grid grid-cols-[minmax(0,1fr)] gap-1.5">
+      {setlist.map(({ id, title, body, Icon }) => (
+        <li key={id}>
           <button
-            key={id}
             type="button"
             onClick={() => void demos[id]()}
-            className="flex cursor-pointer items-center gap-3 rounded-full bg-white/[0.07] py-2 pr-5 pl-2 text-left text-[0.95rem] font-medium transition-[transform,background-color] hover:bg-white/[0.13] active:scale-[0.98]"
+            className="group flex w-full cursor-pointer items-center gap-4 rounded-[20px] p-3 pr-5 text-left transition-[transform,background-color] duration-200 hover:bg-white/[0.07] active:scale-[0.99]"
           >
-            <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-accent text-[#06140a]">
-              <Icon className="h-5 w-5" aria-hidden />
+            <span className="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-white/[0.08] text-accent transition-colors group-hover:bg-accent group-hover:text-[#06140a]">
+              <Icon className="h-6 w-6" aria-hidden />
             </span>
-            {label}
+            <span className="min-w-0 flex-1">
+              <span className="block font-display text-2xl leading-tight font-semibold tracking-[-0.02em]">{title}</span>
+              <span className="block text-[0.95rem] text-island-fg/65">{body}</span>
+            </span>
+            <ArrowUpIcon className="h-5 w-5 flex-none text-island-fg/70 opacity-0 transition-opacity group-hover:opacity-100" aria-hidden />
           </button>
-        ))}
-      </div>
-      <div className="mt-6 overflow-hidden rounded-[20px] bg-white/[0.06]">
-        <div className="code-pre" dangerouslySetInnerHTML={{ __html: codeHtml }} />
-      </div>
-    </div>
+        </li>
+      ))}
+    </ul>
   );
 }

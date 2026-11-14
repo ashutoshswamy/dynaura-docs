@@ -11,7 +11,7 @@ export function Sidebar() {
     <nav aria-label="Documentation" className="space-y-8">
       {nav.map((g) => (
         <div key={g.label}>
-          <p className="mb-2.5 px-3 font-display text-base font-semibold tracking-tight">{g.label}</p>
+          <p className="mb-2 px-3 font-display text-sm font-semibold tracking-tight text-ink/50">{g.label}</p>
           <ul className="space-y-0.5">
             {g.items.map((i) => {
               const active = path === i.href;

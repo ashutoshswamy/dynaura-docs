@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ViewTransition } from "react";
 import { SITE, NPM, REPO, author, jsonLd, pageMeta } from "@/lib/seo";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { BoltIcon, BookOpenIcon, PaintBrushIcon, PuzzlePieceIcon } from "@heroicons/react/24/outline";
@@ -10,10 +11,11 @@ import { SiteFooter } from "@/components/site-footer";
 import { CodeTabsBlock, highlight } from "@/components/code-block";
 import { FeatureExplorer } from "@/components/feature-explorer";
 import { features } from "@/components/features-data";
-import { HeroPanel } from "@/components/demos";
+import { HeroSetlist } from "@/components/demos";
 import { Welcome } from "@/components/landing-bits";
 import { CopyCommand } from "@/components/copy-command";
 import { nav } from "@/components/nav";
+import { WordRoll } from "@/components/word-roll";
 
 export const metadata: Metadata = pageMeta({
   title: "dynaura",
@@ -60,9 +62,9 @@ const frameworks = [
 ];
 
 const quickFacts = [
-  { Icon: PuzzlePieceIcon, title: "Mount once", body: "One Toaster per page, in your root layout." },
-  { Icon: PaintBrushIcon, title: "Import the stylesheet", body: "dynaura/styles.css, once, at the root." },
-  { Icon: BoltIcon, title: "Call from anywhere", body: "State is a global, so there is no provider or hook." },
+  { Icon: PuzzlePieceIcon, title: "Mount once", body: "One Toaster per page, in your root layout.", code: "<Toaster />" },
+  { Icon: PaintBrushIcon, title: "Import the stylesheet", body: "Once, at the root.", code: 'import "dynaura/styles.css"' },
+  { Icon: BoltIcon, title: "Call from anywhere", body: "State is a global, so there is no provider or hook.", code: 'dynaura.success("Saved")' },
 ];
 
 const tabs = [
@@ -120,7 +122,6 @@ dynaura.info("Hello");`,
 
 
 export default async function Home() {
-  const heroCode = await highlight('dynaura.success({ title: "Saved", description: "Your changes are live." });', "tsx");
   const featureHtml = Object.fromEntries(
     await Promise.all(features.map(async (f) => [f.id, await highlight(f.code, f.lang)] as const)),
   );
@@ -130,15 +131,20 @@ export default async function Home() {
       <Welcome />
       <SiteHeader />
 
+      <ViewTransition enter="page-in" exit="page-out" default="none">
       <main>
         {/* hero: asymmetric split on the page background. Copy left, dark brand panel right. */}
-        <section className="mx-auto grid max-w-[1400px] grid-cols-[minmax(0,1fr)] items-center gap-14 px-4 pt-14 pb-20 sm:px-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-16 lg:pt-36 lg:pb-28">
+        <div className="hero-bg relative isolate overflow-hidden">
+        <section className="mx-auto grid min-h-[min(46rem,calc(100dvh-4rem))] max-w-[1400px] grid-cols-[minmax(0,1fr)] items-center gap-14 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-20 lg:py-20">
           <div>
-            <h1 className="hero-in font-display text-[3rem] leading-[1] font-bold tracking-[-0.04em] text-balance sm:text-[4.5rem] lg:text-[4.75rem]">
-              Toasts that morph like an island.
+            <h1 className="hero-in font-display text-[clamp(3.25rem,10.5vw,6rem)] leading-[1.02] font-bold tracking-[-0.04em] text-balance">
+              <span className="block">Island toasts</span>
+              <span className="block">
+                for <WordRoll words={["React", "Vue", "Svelte", "vanilla JS"]} />
+              </span>
             </h1>
-            <p className="hero-in mt-7 max-w-[32rem] text-lg leading-relaxed text-muted" style={{ animationDelay: "90ms" }}>
-              One pill that spring-morphs between states, swipes away, and stays out of your way. Zero dependencies.
+            <p className="hero-in mt-8 max-w-[28rem] text-lg leading-relaxed text-muted" style={{ animationDelay: "90ms" }}>
+              One pill that spring-morphs between states and swipes away. Zero dependencies, fully typed.
             </p>
             <div className="hero-in mt-10 flex flex-wrap items-center gap-3" style={{ animationDelay: "180ms" }}>
               <Link
@@ -152,35 +158,38 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="hero-in" style={{ animationDelay: "260ms" }}>
-            <HeroPanel codeHtml={heroCode} />
+          <div className="hero-in hero-stage on-dark rounded-[28px] bg-island p-3 text-island-fg sm:p-4" style={{ animationDelay: "260ms" }}>
+            <div className="flex items-center justify-between gap-4 px-3 pt-2 pb-4">
+              <h2 className="text-sm font-medium text-island-fg/70">Press one. The island opens at the top of the page.</h2>
+              <span aria-hidden className="h-6 w-16 flex-none rounded-full bg-black ring-1 ring-white/10" />
+            </div>
+            <HeroSetlist />
           </div>
         </section>
+        </div>
 
-        {/* adapters: one core, four entry points. Each row links to the quick start. */}
+        {/* adapters: one core, four entry points. Big full-width rows that invert on hover; each links to the quick start. */}
         <section className="border-t border-line">
-          <div className="mx-auto max-w-[1400px] px-4 py-20 sm:px-6 lg:py-24">
-            <h2 className="font-display text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">One core. Four adapters.</h2>
-            <p className="mt-3 max-w-[52ch] text-lg text-muted">
-              React, Vue, Svelte and plain JS are thin wrappers over the same island, each on its own import.
+          <div className="mx-auto max-w-[1400px] px-4 py-20 sm:px-6 lg:py-28">
+            <h2 className="font-display text-4xl font-semibold tracking-[-0.03em] sm:text-5xl">One core. Four adapters.</h2>
+            <p className="mt-4 max-w-[52ch] text-lg text-muted">
+              Every adapter drives the same island. Pick your framework, change one import.
             </p>
-            <ul className="mt-10 grid grid-cols-[minmax(0,1fr)] gap-3 sm:grid-cols-2">
+            <ul className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-2">
               {frameworks.map((f) => (
                 <li key={f.name}>
                   <Link
                     href="/docs/quick-start"
-                    className="plain group flex items-center gap-5 rounded-[20px] border border-line bg-surface p-4 pr-6 transition-[border-color,transform] hover:border-ink/40 active:scale-[0.99] sm:p-5"
+                    className="plain on-dark group grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-5 gap-y-1 rounded-[24px] bg-surface p-4 transition-[background-color,color,transform] duration-300 hover:bg-island hover:text-island-fg active:scale-[0.995] sm:gap-x-8 sm:p-5 lg:grid-cols-[auto_minmax(0,1fr)_auto_auto] lg:px-7 lg:py-6"
                   >
-                    <span className="flex h-14 w-14 flex-none items-center justify-center rounded-full bg-accent-soft text-accent-ink transition-colors group-hover:bg-ink group-hover:text-bg">
-                      <svg role="img" aria-label={f.name} viewBox="0 0 24 24" className="h-7 w-7" fill="currentColor">
+                    <span className="row-span-2 flex h-14 w-14 flex-none items-center justify-center rounded-full bg-accent-soft text-accent-ink transition-colors duration-300 group-hover:bg-accent group-hover:text-[#06140a] sm:h-16 sm:w-16 lg:row-span-1">
+                      <svg role="img" aria-label={f.name} viewBox="0 0 24 24" className="h-7 w-7 sm:h-8 sm:w-8" fill="currentColor">
                         <path d={f.icon.path} />
                       </svg>
                     </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block font-display text-xl font-semibold tracking-tight">{f.name}</span>
-                      <code className="mt-0.5 block truncate text-[0.82rem] text-muted">{f.from}</code>
-                    </span>
-                    <ArrowRightIcon className="h-4 w-4 flex-none text-muted transition-transform group-hover:translate-x-1 group-hover:text-ink" aria-hidden />
+                    <span className="font-display text-3xl font-semibold tracking-[-0.03em] sm:text-4xl lg:text-5xl">{f.name}</span>
+                    <ArrowRightIcon className="row-span-2 h-5 w-5 flex-none text-muted transition-[transform,color] duration-300 group-hover:translate-x-1 group-hover:text-accent lg:order-last lg:row-span-1" aria-hidden />
+                    <code className="col-start-2 truncate text-[0.82rem] text-muted transition-colors duration-300 group-hover:text-island-fg/70 lg:col-start-3 lg:text-sm">{f.from}</code>
                   </Link>
                 </li>
               ))}
@@ -198,64 +207,89 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* quick start: stacked. Code card with a Run button, then three plain facts. */}
+        {/* quick start: three moves as a rail on the left, the code in a tinted frame on the right */}
         <section className="border-t border-line bg-surface">
-          <div className="mx-auto max-w-[1400px] px-4 py-24 sm:px-6 lg:py-28">
-            <h2 className="font-display text-4xl font-semibold tracking-[-0.03em] sm:text-5xl">One Toaster. Call it anywhere.</h2>
-            <p className="mt-4 max-w-[60ch] text-lg text-muted">Mount it once, import the stylesheet once, and every dynaura call works.</p>
-            <div className="mt-8 max-w-4xl">
-              <CodeTabsBlock tabs={tabs} />
+          <div className="mx-auto max-w-[1400px] px-4 py-24 sm:px-6 lg:py-32">
+            <h2 className="max-w-3xl font-display text-4xl font-semibold tracking-[-0.03em] text-balance sm:text-6xl">
+              One Toaster. Call it anywhere.
+            </h2>
+            <p className="mt-5 max-w-[56ch] text-lg text-muted">
+              Three moves and every dynaura call works, from any file, with no provider and no hook.
+            </p>
+
+            <div className="mt-14 grid grid-cols-[minmax(0,1fr)] items-start gap-12 lg:mt-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+              <ol className="grid grid-cols-[minmax(0,1fr)] gap-10">
+                {quickFacts.map(({ Icon, title, body, code }, i, all) => (
+                  <li key={title} className="relative flex gap-5">
+                    {i < all.length - 1 && <span aria-hidden className="absolute top-14 -bottom-10 left-[1.4rem] w-px bg-line" />}
+                    <span className="relative flex h-11 w-11 flex-none items-center justify-center rounded-full bg-island text-accent">
+                      <Icon className="h-5 w-5" aria-hidden />
+                    </span>
+                    <span className="min-w-0 pt-1">
+                      <span className="block font-display text-2xl font-semibold tracking-[-0.02em]">{title}</span>
+                      <span className="mt-1 block text-[1.02rem] leading-snug text-muted">{body}</span>
+                      <code className="mt-3 inline-block max-w-full truncate rounded-[8px] bg-code px-2.5 py-1 text-[0.82rem]">{code}</code>
+                    </span>
+                  </li>
+                ))}
+              </ol>
+
+              <div className="rounded-[28px] bg-accent-soft p-3 sm:p-4 [&>figure]:my-0">
+                <CodeTabsBlock tabs={tabs} />
+              </div>
             </div>
-            <ul className="mt-10 grid max-w-4xl grid-cols-[minmax(0,1fr)] gap-x-10 gap-y-7 sm:grid-cols-3">
-              {quickFacts.map(({ Icon, title, body }) => (
-                <li key={title} className="flex gap-4">
-                  <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-accent-soft text-accent-ink">
-                    <Icon className="h-5 w-5" aria-hidden />
-                  </span>
-                  <span>
-                    <span className="block font-medium">{title}</span>
-                    <span className="mt-0.5 block text-[0.95rem] leading-snug text-muted">{body}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
           </div>
         </section>
 
-        {/* docs index: heading on the left, grouped rows on the right */}
-        <section className="mx-auto grid max-w-[1400px] grid-cols-[minmax(0,1fr)] gap-12 px-4 py-24 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.7fr)] lg:gap-20 lg:py-32">
-          <div className="lg:sticky lg:top-28 lg:self-start">
-            <h2 className="font-display text-4xl font-semibold tracking-[-0.03em] sm:text-5xl">Read the docs.</h2>
-            <p className="mt-4 max-w-[36ch] text-lg text-muted">Guides for every feature, a full API reference, and a playground to try each option.</p>
-          </div>
-          <div className="grid grid-cols-[minmax(0,1fr)] gap-9">
-            {nav.map((g) => (
-              <div key={g.label}>
-                <h3 className="mb-2 px-4 font-display text-lg font-semibold tracking-tight">{g.label}</h3>
-                <ul className="grid grid-cols-[minmax(0,1fr)] gap-0.5">
-                  {g.items.map((i) => {
-                    const Icon = docIcons[i.href] ?? BookOpenIcon;
-                    return (
-                      <li key={i.href}>
-                        <Link href={i.href} className="plain group flex items-center gap-4 rounded-[20px] px-4 py-3.5 transition-colors hover:bg-accent-soft">
-                          <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full border border-line bg-surface text-ink transition-colors group-hover:border-ink group-hover:bg-ink group-hover:text-bg">
-                            <Icon className="h-5 w-5" aria-hidden />
-                          </span>
-                          <span className="min-w-0 flex-1">
-                            <span className="block font-medium">{i.title}</span>
-                            <span className="block truncate text-sm text-muted">{i.description}</span>
-                          </span>
-                          <ArrowRightIcon className="h-4 w-4 flex-none text-muted transition-transform group-hover:translate-x-1 group-hover:text-ink" aria-hidden />
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            ))}
+        {/* docs index: one tile per nav group, each with its own surface (dark, green, white) */}
+        <section className="mx-auto max-w-[1400px] px-4 py-24 sm:px-6 lg:py-32">
+          <h2 className="font-display text-4xl font-semibold tracking-[-0.03em] sm:text-6xl">Read the docs.</h2>
+          <p className="mt-5 max-w-[52ch] text-lg text-muted">
+            Guides for every feature, a full API reference, and a playground to try each option.
+          </p>
+
+          <div className="mt-14 grid grid-cols-[minmax(0,1fr)] gap-3 lg:mt-16 lg:grid-cols-12 lg:gap-4">
+            {nav.map((g, n) => {
+              const dark = n === 0;
+              const tone = [
+                "on-dark bg-island text-island-fg lg:col-span-5",
+                "bg-accent-soft lg:col-span-7",
+                "border border-line bg-surface lg:col-span-12",
+              ][n];
+              return (
+                <div key={g.label} className={`rounded-[28px] p-4 sm:p-6 ${tone}`}>
+                  <h3 className="px-3 pt-2 pb-4 font-display text-2xl font-semibold tracking-[-0.02em]">{g.label}</h3>
+                  <ul className={`grid grid-cols-[minmax(0,1fr)] gap-0.5 ${n === 2 ? "lg:grid-cols-2 lg:gap-x-4" : ""}`}>
+                    {g.items.map((i) => {
+                      const Icon = docIcons[i.href] ?? BookOpenIcon;
+                      return (
+                        <li key={i.href}>
+                          <Link
+                            href={i.href}
+                            className={`plain group flex items-center gap-4 rounded-[20px] px-3 py-3 transition-colors ${dark ? "hover:bg-white/10" : "hover:bg-ink/[0.06]"}`}
+                          >
+                            <span
+                              className={`flex h-11 w-11 flex-none items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-105 ${dark ? "bg-accent text-[#06140a]" : "bg-island text-accent"}`}
+                            >
+                              <Icon className="h-5 w-5" aria-hidden />
+                            </span>
+                            <span className="min-w-0 flex-1">
+                              <span className="block font-medium">{i.title}</span>
+                              <span className={`block truncate text-sm ${dark ? "text-island-fg/65" : "text-muted"}`}>{i.description}</span>
+                            </span>
+                            <ArrowRightIcon className={`h-4 w-4 flex-none transition-transform group-hover:translate-x-1 ${dark ? "text-island-fg/60" : "text-muted group-hover:text-ink"}`} aria-hidden />
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
         </section>
       </main>
+      </ViewTransition>
 
       <SiteFooter />
     </>
