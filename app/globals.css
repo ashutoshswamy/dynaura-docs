@@ -1,27 +1,239 @@
 @import "tailwindcss";
 
+/*
+  Shape rule (locked): interactive controls = pill (9999px), containers = 20px,
+  inline code = 8px. Type: Bricolage Grotesque (display) + DM Sans (everything else).
+  One accent: green, taken from the dynaura mark.
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --bg: #f6f8f5;
+  --surface: #ffffff;
+  --ink: #0e1210;
+  --muted: #576059;
+  --line: #dfe5dd;
+  --accent: #1fb84a;
+  --accent-ink: #0a6a2b;
+  --accent-soft: #e2f4e7;
+  --code-bg: #edf1ec;
+  --island: #0a0c0a;
+  --island-fg: #f2f5f1;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-body);
-  --font-mono: var(--font-body);
-  --font-display: var(--font-display);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-code: var(--code-bg);
+  --color-island: var(--island);
+  --color-island-fg: var(--island-fg);
+  --font-sans: var(--font-body), system-ui, sans-serif;
+  --font-display: var(--font-display), var(--font-body), system-ui, sans-serif;
+  --font-mono: Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--ink);
   font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+::selection {
+  background: var(--accent);
+  color: #06140a;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* ---------- long-form docs content ---------- */
+.doc h1,
+.doc h2,
+.doc h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+.doc h2 {
+  font-size: 1.75rem;
+  font-weight: 650;
+  margin: 3.5rem 0 1rem;
+}
+.doc h3 {
+  font-size: 1.2rem;
+  font-weight: 650;
+  margin: 2.25rem 0 0.6rem;
+}
+.doc p {
+  color: var(--muted);
+  max-width: 65ch;
+  margin: 0 0 1.1rem;
+}
+.doc p strong,
+.doc li strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.doc a:not(.plain) {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  text-underline-offset: 3px;
+}
+.doc a:not(.plain):hover {
+  text-decoration-color: var(--accent);
+}
+.doc ul {
+  color: var(--muted);
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.25rem;
+  max-width: 65ch;
+}
+.doc ul li {
+  position: relative;
+  padding-left: 1.4rem;
+  margin: 0.45rem 0;
+}
+.doc ul li::before {
+  content: "";
+  position: absolute;
+  left: 0.2rem;
+  top: 0.72em;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--accent);
+}
+.doc :not(pre) > code {
+  font-size: 0.85em;
+  font-weight: 400;
+  padding: 0.12em 0.45em;
+  border-radius: 8px;
+  background: var(--code-bg);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+
+/* tables */
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+.doc-table th {
+  text-align: left;
+  font-weight: 600;
+  padding: 0.7rem 1rem 0.7rem 0;
+  border-bottom: 1px solid var(--ink);
+  white-space: nowrap;
+}
+.doc-table td {
+  padding: 0.8rem 1rem 0.8rem 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  color: var(--muted);
+}
+.doc-table td:first-child {
+  color: var(--ink);
+  white-space: nowrap;
+}
+.doc-table code {
+  white-space: nowrap;
+}
+
+/* code uses Menlo (user request); everything else stays Bricolage Grotesque + DM Sans */
+code,
+pre {
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+/* shiki dual theme via CSS variables */
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+  background: transparent !important;
+}
+/* code on the dark brand panel uses the dark shiki palette */
+.on-dark .shiki,
+.on-dark .shiki span {
+  color: var(--shiki-dark);
+}
+.code-pre pre {
+  margin: 0;
+  padding: 1.1rem 1.25rem;
+  overflow-x: auto;
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.84rem;
+  line-height: 1.7;
+  font-variant-ligatures: none;
+  tab-size: 2;
+}
+.code-pre code {
+  font-family: inherit;
+}
+
+/* skeleton shimmer for demo loading */
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* entry + scroll reveal: hierarchy only, transform + opacity, gated by reduced motion below */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+.hero-in {
+  animation: rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
+}
+
+/* the island uses the site display font, already loaded by next/font */
+.dynaura-root {
+  --dynaura-font: var(--font-display), system-ui, sans-serif;
+}
+
+/* notched phones in landscape: keep content out of the side insets */
+body {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }

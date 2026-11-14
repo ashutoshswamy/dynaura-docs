@@ -1,0 +1,25 @@
+# dynaura
+
+> Dynamic Island style toasts for the web. One pill that spring-morphs between states, swipes away and stays out of your way. Zero dependencies, typed, themeable. React, Vue, Svelte and vanilla JS. MIT licensed.
+
+dynaura is an npm package by Ashutosh Swamy. Install with `npm install dynaura`, mount one `<Toaster />`, import `dynaura/styles.css` once, then call `dynaura.success({ title: "Saved" })` from anywhere.
+
+## Docs
+
+- [Introduction](https://dynaura.ashutoshswamy.in/docs): what dynaura is and why it exists
+- [Installation](https://dynaura.ashutoshswamy.in/docs/installation): npm, pnpm, yarn or bun, plus the stylesheet
+- [Quick start](https://dynaura.ashutoshswamy.in/docs/quick-start): React, Vue, Svelte and vanilla setup
+- [Recipes](https://dynaura.ashutoshswamy.in/docs/recipes): actions, promises, progress, live activities, rich cards, queue, positions
+- [Playground](https://dynaura.ashutoshswamy.in/docs/playground): change every option and copy the code
+- [Examples](https://dynaura.ashutoshswamy.in/docs/examples): feedback, async, live, cards, social and commerce
+- [Theming](https://dynaura.ashutoshswamy.in/docs/theming): dark, light, system and custom themes
+- [Gestures](https://dynaura.ashutoshswamy.in/docs/gestures): hover, tap, long-press and swipe
+- [API](https://dynaura.ashutoshswamy.in/docs/api): methods, toast options, Toaster options, entry points
+- [Accessibility](https://dynaura.ashutoshswamy.in/docs/accessibility): aria-live, focus and reduced motion
+- [How it works](https://dynaura.ashutoshswamy.in/docs/how-it-works): internals, adapters, development, releasing
+- [Troubleshooting](https://dynaura.ashutoshswamy.in/docs/troubleshooting): common fixes
+
+## Links
+
+- [npm](https://www.npmjs.com/package/dynaura)
+- [GitHub](https://github.com/ashutoshswamy/dynaura)

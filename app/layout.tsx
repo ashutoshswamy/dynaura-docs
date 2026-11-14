@@ -1,10 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, DM_Sans } from "next/font/google";
+import "./dynaura.css";
 import "./globals.css";
+import { SiteToaster } from "@/components/site-toaster";
+import { ScrollTop } from "@/components/scroll-top";
 
 const display = Bricolage_Grotesque({
   variable: "--font-display",
   subsets: ["latin"],
+  axes: ["opsz"],
 });
 
 const body = DM_Sans({
@@ -17,39 +21,45 @@ const siteUrl = "https://dynaura.ashutoshswamy.in";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Dynaura Docs | Official documentation for the dynaura npm package",
-    template: "%s | Dynaura Docs",
+    default: "dynaura | Dynamic Island toasts for the web",
+    template: "%s | dynaura docs",
   },
   description:
-    "Official documentation for dynaura, an npm package by Ashutosh Swamy. Guides, API reference and examples coming soon.",
-  applicationName: "Dynaura Docs",
+    "Documentation for dynaura: spring-morphing, swipeable, themeable Dynamic Island toasts. Zero dependencies. React, Vue, Svelte and vanilla JS.",
+  applicationName: "dynaura docs",
   authors: [{ name: "Ashutosh Swamy", url: "https://ashutoshswamy.in" }],
   creator: "Ashutosh Swamy",
-  keywords: ["dynaura", "dynaura npm", "dynaura docs", "dynaura documentation"],
-  alternates: { canonical: "/" },
+  keywords: ["dynaura", "toast", "dynamic island", "react toast", "vue toast", "svelte toast", "notification"],
   openGraph: {
     type: "website",
     url: "/",
-    siteName: "Dynaura Docs",
-    title: "Dynaura Docs",
-    description: "Official documentation for the dynaura npm package.",
+    siteName: "dynaura docs",
+    title: "dynaura | Dynamic Island toasts for the web",
+    description: "One pill that spring-morphs between states, swipes away, and stays out of your way.",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dynaura Docs",
-    description: "Official documentation for the dynaura npm package.",
+    title: "dynaura | Dynamic Island toasts for the web",
+    description: "One pill that spring-morphs between states, swipes away, and stays out of your way.",
   },
   robots: { index: true, follow: true },
 };
 
+export const viewport: Viewport = {
+  viewportFit: "cover",
+  themeColor: "#f6f8f5",
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${display.variable} ${body.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`${display.variable} ${body.variable} antialiased`}>
+      <body className="min-h-dvh flex flex-col">
+        <ScrollTop />
+        {children}
+        {/* the docs use the package itself: every demo on the site drives this one island */}
+        <SiteToaster />
+      </body>
     </html>
   );
 }
