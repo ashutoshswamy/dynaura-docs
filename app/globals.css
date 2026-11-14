@@ -237,3 +237,21 @@ body {
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
 }
+
+/* touch: every standalone control reaches the 44px hit-area floor (inline prose links are unaffected) */
+@media (pointer: coarse) {
+  a:not(.doc p a, .doc li a),
+  button,
+  summary {
+    min-height: 44px;
+  }
+  button,
+  footer a {
+    min-width: 44px;
+  }
+  .doc-table td,
+  .doc-table th {
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+  }
+}
