@@ -60,6 +60,21 @@ export function SiteFooter() {
               Dynamic Island toasts for the web.
             </p>
             <p className="mt-3 text-island-fg/65">Zero dependencies. React, Vue, Svelte and vanilla JS.</p>
+            <a
+              href="https://www.producthunt.com/products/dynaura/reviews/new?utm_source=badge-product_review&utm_medium=badge&utm_source=badge-dynaura"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="plain mt-6 inline-block"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://api.producthunt.com/widgets/embed-image/v1/product_review.svg?product_id=1378215&theme=light"
+                alt="dynaura - Dynamic Island toasts for React, Vue, Svelte and JS | Product Hunt"
+                width={250}
+                height={54}
+                style={{ width: 250, height: 54 }}
+              />
+            </a>
           </div>
 
           <nav aria-label="Footer" className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4">
