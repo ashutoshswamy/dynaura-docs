@@ -12,6 +12,9 @@ export type ToasterConfig = {
   queue: boolean;
   timer: boolean;
   haptics: boolean;
+  swipe: "edge" | "up" | "down" | "both" | "none";
+  capQueue: boolean; // maxQueue = 2
+  dedupeTitle: boolean;
 };
 
 export const defaults: ToasterConfig = {
@@ -21,6 +24,9 @@ export const defaults: ToasterConfig = {
   queue: false,
   timer: true,
   haptics: true,
+  swipe: "edge",
+  capQueue: false,
+  dedupeTitle: false,
 };
 
 export const customTheme = { background: "#2b1055", foreground: "#ffffff", success: "#7cffcb" };

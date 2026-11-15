@@ -73,7 +73,7 @@ dynaura.update(id, { progress: 0.6 });`,
   {
     id: "queue",
     title: "Queue and positions",
-    body: "Show toasts one after another, and place the island in any of six positions.",
+    body: "Show toasts one after another, and place the island in six positions, plus start/end ones that flip in RTL.",
     href: "/docs/recipes#queue",
     lang: "tsx",
     code: `<Toaster position="bottom-right" queue />`,
@@ -81,12 +81,14 @@ dynaura.update(id, { progress: 0.6 });`,
   {
     id: "frameworks",
     title: "Any framework",
-    body: "React, Vue, Svelte, or plain JS, all on one shared core.",
+    body: "React, Vue, Svelte, Solid, Angular, or plain JS, all on one shared core.",
     href: "/docs/quick-start",
     lang: "ts",
     code: `import { Toaster, dynaura } from "dynaura";       // React
 import { Toaster, dynaura } from "dynaura/vue";      // Vue
 import { toaster, dynaura } from "dynaura/svelte";   // Svelte
+import { Toaster, dynaura } from "dynaura/solid";    // Solid
+import { injectToaster, dynaura } from "dynaura/angular"; // Angular
 import { createToaster, dynaura } from "dynaura/vanilla";`,
   },
   {

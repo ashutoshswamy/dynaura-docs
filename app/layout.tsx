@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | dynaura docs",
   },
   description:
-    "Documentation for dynaura: spring-morphing, swipeable, themeable Dynamic Island toasts. Zero dependencies. React, Vue, Svelte and vanilla JS.",
+    "Documentation for dynaura: spring-morphing, swipeable, themeable Dynamic Island toasts. Zero dependencies. React, Vue, Svelte, Solid, Angular and vanilla JS.",
   applicationName: "dynaura docs",
   authors: [{ name: "Ashutosh Swamy", url: "https://ashutoshswamy.in" }],
   creator: "Ashutosh Swamy",

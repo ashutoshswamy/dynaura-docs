@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef, useState, type KeyboardEvent } from "react";
 import { dynaura } from "dynaura";
-import { siJavascript, siReact, siSvelte, siVuedotjs } from "simple-icons";
+import { siAngular, siJavascript, siReact, siSolid, siSvelte, siVuedotjs } from "simple-icons";
 import {
   ArrowRightIcon,
   ArrowsRightLeftIcon,
@@ -63,6 +63,8 @@ const logos = [
   { name: "React", path: siReact.path },
   { name: "Vue", path: siVuedotjs.path },
   { name: "Svelte", path: siSvelte.path },
+  { name: "Solid", path: siSolid.path },
+  { name: "Angular", path: siAngular.path },
   { name: "JavaScript", path: siJavascript.path },
 ];
 

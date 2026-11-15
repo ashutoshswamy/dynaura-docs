@@ -1,12 +1,14 @@
 "use client";
 
 import { useId, useState, type ReactNode } from "react";
-import { dynaura, type ToastOptions } from "dynaura";
+import { dynaura, type Position, type ToastOptions } from "dynaura";
 import { PlayIcon } from "@heroicons/react/16/solid";
 import { CopyButton } from "./copy-button";
 import { JellySlider } from "./jelly-slider";
 import { positions } from "./theme-demo";
-import { setToaster, useToasterConfig, type ThemeChoice } from "./toaster-store";
+import { setToaster, useToasterConfig, type ThemeChoice, type ToasterConfig } from "./toaster-store";
+
+const allPositions: Position[] = [...positions, "top-start", "top-end", "bottom-start", "bottom-end"];
 
 type Kind = "success" | "error" | "warning" | "info" | "loading" | "live";
 const kinds: Kind[] = ["success", "error", "warning", "info", "loading", "live"];
@@ -95,6 +97,8 @@ export function Playground() {
   const [queue, setQueue] = useState(false);
   const [progress, setProgress] = useState(0.4);
   const [wave, setWave] = useState(false);
+  const [secondary, setSecondary] = useState(false);
+  const [byId, setById] = useState(false);
 
   const opts: ToastOptions = { title: title || "Untitled" };
   if (description) opts.description = description;
@@ -102,6 +106,8 @@ export function Playground() {
   if (duration === "8000") opts.duration = 8000;
   if (duration === "sticky") opts.duration = null;
   if (action) opts.button = { title: "Undo", onClick: () => dynaura.success("Undone") };
+  if (secondary) opts.secondaryButton = { title: "Cancel", onClick: () => dynaura.info("Cancelled") };
+  if (byId) opts.id = "demo";
   if (confetti) opts.confetti = true;
   if (card) opts.variant = "card";
   if (queue) opts.queue = true;
@@ -115,6 +121,8 @@ export function Playground() {
   if (duration === "8000") lines.push("  duration: 8000,");
   if (duration === "sticky") lines.push("  duration: null,");
   if (action) lines.push('  button: { title: "Undo", onClick: undo },');
+  if (secondary) lines.push('  secondaryButton: { title: "Cancel", onClick: cancel },');
+  if (byId) lines.push('  id: "demo", // same id updates in place');
   if (confetti) lines.push("  confetti: true,");
   if (card) lines.push('  variant: "card",');
   if (queue) lines.push("  queue: true,");
@@ -129,6 +137,9 @@ export function Playground() {
   if (cfg.queue) toasterProps.push("queue");
   if (!cfg.timer) toasterProps.push("timer={false}");
   if (!cfg.haptics) toasterProps.push("haptics={false}");
+  if (cfg.swipe !== "edge") toasterProps.push(`swipe="${cfg.swipe}"`);
+  if (cfg.capQueue) toasterProps.push("maxQueue={2}");
+  if (cfg.dedupeTitle) toasterProps.push('dedupe="title"');
   const toasterCode = `<Toaster ${toasterProps.join(" ")} />`;
 
   const panel = "rounded-[28px] border border-line bg-surface p-6 sm:p-7";
@@ -144,7 +155,7 @@ export function Playground() {
         <div className="grid gap-2">
           <span className="text-sm font-medium">position</span>
           <div role="group" aria-label="position" className="grid grid-cols-3 gap-1.5">
-            {positions.map((p) => (
+            {allPositions.map((p) => (
               <button
                 key={p}
                 type="button"
@@ -165,12 +176,20 @@ export function Playground() {
           options={["dark", "light", "system", "custom"]}
           onChange={(theme) => setToaster({ theme })}
         />
+        <Seg<ToasterConfig["swipe"]>
+          label="swipe"
+          value={cfg.swipe}
+          options={["edge", "up", "down", "both", "none"]}
+          onChange={(swipe) => setToaster({ swipe })}
+        />
         <div className="grid gap-1">
           <span className="text-sm font-medium">offset: {cfg.offset}px</span>
           <JellySlider label="offset" min={0} max={160} value={cfg.offset} onChange={(offset) => setToaster({ offset })} format={(v) => `${v}`} />
         </div>
         <div className="grid gap-2">
           <Switch label="queue" checked={cfg.queue} onChange={(queue) => setToaster({ queue })} />
+          <Switch label="max 2 queued" checked={cfg.capQueue} onChange={(capQueue) => setToaster({ capQueue })} />
+          <Switch label='dedupe: "title"' checked={cfg.dedupeTitle} onChange={(dedupeTitle) => setToaster({ dedupeTitle })} />
           <Switch label="timer bar" checked={cfg.timer} onChange={(timer) => setToaster({ timer })} />
           <Switch label="haptics" checked={cfg.haptics} onChange={(haptics) => setToaster({ haptics })} />
         </div>
@@ -210,6 +229,8 @@ export function Playground() {
         {kind === "live" && <Switch label='kind: "wave"' checked={wave} onChange={setWave} />}
         <div className="grid gap-2">
           <Switch label="button (Undo)" checked={action} onChange={setAction} />
+          <Switch label="secondary button (Cancel)" checked={secondary} onChange={setSecondary} />
+          <Switch label='id: "demo" (update in place)' checked={byId} onChange={setById} />
           <Switch label="confetti" checked={confetti} onChange={setConfetti} />
           <Switch label='variant: "card"' checked={card} onChange={setCard} />
           <Switch label="queue (this toast)" checked={queue} onChange={setQueue} />

@@ -5,7 +5,7 @@ import { Code } from "@/components/code-block";
 
 export const metadata: Metadata = pageMeta({
   title: "API reference",
-  description: "Complete dynaura API: methods, toast options, Toaster options, entry points and TypeScript types.",
+  description: "Complete dynaura API: methods, toast options, callbacks, Toaster options, entry points and TypeScript types.",
   path: "/docs/api",
 });
 
@@ -47,7 +47,15 @@ export default function Page() {
             desc: "Morphs loading into success or error. Each can be a string, an options object, or a function of the result. Returns the original promise.",
           },
           { name: "update(id, patch)", desc: <>Patch a toast in place, including {c("type")}. Also works on queued toasts.</> },
-          { name: "dismiss(id?)", desc: "Dismiss the current toast (the next queued one shows) or a specific id." },
+          {
+            name: "custom(node, opts?)",
+            desc: <>Fully custom body (string, DOM Node or React node) with no title row and no card variant. {c("opts")} are the usual toast options.</>,
+          },
+          { name: "pause() / resume()", desc: "Freeze or release every timer, e.g. while a modal is open. Toasts shown while paused start frozen." },
+          {
+            name: "dismiss(id?, reason?)",
+            desc: <>Dismiss the current toast (the next queued one shows) or a specific id. {c("reason")} defaults to {c('"api"')} and is passed to {c("onDismiss")}.</>,
+          },
           { name: "clear()", desc: "Dismiss everything, including the queue." },
         ]}
       />
@@ -76,27 +84,53 @@ export default function Page() {
             desc: <>{c('"card"')}: header tab plus a full-bleed custom body.</>,
           },
           { name: "queue", type: "boolean", def: "Toaster's queue", desc: "Per-toast override of the Toaster option." },
+          { name: "secondaryButton", type: "{ title, onClick }", desc: <>Second action next to {c("button")}, e.g. Undo. The toast dismisses after the click.</> },
+          { name: "custom", type: "string | Node | ReactNode", desc: <>Replaces the title row with your own body. Prefer {c("dynaura.custom()")}.</> },
+          { name: "id", type: "string", def: "auto-numbered", desc: "Custom key. Showing a toast with an id that is already live updates it in place instead of stacking, and restarts its timer." },
+          { name: "className", type: "string", desc: "Extra class(es) on the island, for this toast only." },
+          { name: "style", type: "Record<string, string | number>", desc: <>Inline styles on the island for this toast. CSS variables work, e.g. {c('{ "--dynaura-bg": "#123" }')}.</> },
+          { name: "onShow", type: "() => void", desc: "Fires when the toast becomes visible. Not on updates." },
+          {
+            name: "onDismiss",
+            type: "(reason) => void",
+            desc: <>Fires when the toast ends. {c("reason")}: {c('"timeout"')}, {c('"swipe"')}, {c('"button"')}, {c('"escape"')} or {c('"api"')}. A toast replaced by a newer one reports {c('"api"')}.</>,
+          },
+          { name: "onAutoClose", type: "() => void", desc: <>Fires when the toast ends because {c("duration")} ran out. {c('onDismiss("timeout")')} fires too.</> },
+          { name: "onClick", type: "() => void", desc: "Tap or click on the island itself, not its buttons. Pointer only: put keyboard-reachable actions in button." },
         ]}
       />
       <Callout>
-        <p>React nodes work in the React adapter. Vue, Svelte and vanilla accept strings or DOM nodes.</p>
+        <p>React nodes work in the React adapter. Vue, Svelte, Solid, Angular and vanilla accept strings or DOM nodes.</p>
       </Callout>
 
       <H2 id="toaster-options">Toaster options</H2>
       <p>
-        These apply to {c("<Toaster />")} and to {c("createToaster()")}. Mount one Toaster per page.
+        These apply to {c("<Toaster />")} and to {c("createToaster()")}. Mount one Toaster per page; in development a second one logs a {c("console.warn")}.
       </p>
       <OptionList
         items={[
           {
             name: "position",
-            type: '"top" | "top-left" | "top-right" | "bottom" | "bottom-left" | "bottom-right"',
+            type: '"top" | "top-left" | "top-right" | "top-start" | "top-end" | "bottom" | "bottom-left" | "bottom-right" | "bottom-start" | "bottom-end"',
             def: '"top"',
-            desc: "Where the island sits.",
+            desc: <>Where the island sits. {c("start")} and {c("end")} are logical: they flip on RTL pages.</>,
           },
           { name: "offset", type: "number", def: "12", desc: "Pixels from the screen edge. Safe-area insets are added." },
           { name: "theme", type: '"dark" | "light" | "system" | CustomTheme', def: '"dark"', desc: "See Theming." },
           { name: "queue", type: "boolean", def: "false", desc: "Show toasts one after another." },
+          { name: "maxQueue", type: "number", def: "Infinity", desc: "With queue: the most toasts that may wait. Beyond it the oldest waiting toast is dropped." },
+          {
+            name: "dedupe",
+            type: '"id" | "title"',
+            def: '"id"',
+            desc: <>{c('"id"')}: a repeated custom id updates in place. {c('"title"')}: a repeated title does too.</>,
+          },
+          {
+            name: "swipe",
+            type: '"edge" | "up" | "down" | "both" | "none"',
+            def: '"edge"',
+            desc: <>Drag-to-dismiss direction. {c('"edge"')} is toward the anchored screen edge, {c('"both"')} is either vertical way, {c('"none"')} turns it off.</>,
+          },
           { name: "timer", type: "boolean", def: "true", desc: "Thin time-remaining bar on timed toasts." },
           { name: "haptics", type: "boolean", def: "true", desc: <>{c("navigator.vibrate")} on show. A no-op where unsupported.</> },
         ]}
@@ -108,14 +142,17 @@ export default function Page() {
           { name: "dynaura", desc: <>React: {c("Toaster")}, {c("dynaura")}.</> },
           { name: "dynaura/vue", desc: <>Vue 3: {c("Toaster")}, {c("dynaura")}.</> },
           { name: "dynaura/svelte", desc: <>Svelte: {c("toaster")} action, {c("dynaura")}.</> },
+          { name: "dynaura/solid", desc: <>Solid: {c("Toaster")}, {c("dynaura")}.</> },
+          { name: "dynaura/angular", desc: <>Angular: {c("injectToaster")}, {c("dynaura")}.</> },
           { name: "dynaura/vanilla", desc: <>Plain JS: {c("createToaster")}, {c("dynaura")}.</> },
           { name: "dynaura/styles.css", desc: "The stylesheet. Import it once." },
+          { name: "dynaura/styles-no-font.css", desc: <>The same stylesheet without the Google Fonts {c("@import")}. Use it with a strict CSP or your own font.</> },
         ]}
       />
 
       <H2 id="typescript">TypeScript</H2>
       <p>
-        Exported types: {c("ToastOptions")}, {c("ToastType")}, {c("ToasterProps")}, {c("CustomTheme")}, {c("Position")} and {c("Content")}.
+        Exported types: {c("ToastOptions")}, {c("ToastType")}, {c("ToasterProps")}, {c("CustomTheme")}, {c("Position")}, {c("DismissReason")} and {c("Content")}.
       </p>
       <Code lang="ts" code={`import type { ToastOptions, CustomTheme } from "dynaura";`} />
     </DocPage>

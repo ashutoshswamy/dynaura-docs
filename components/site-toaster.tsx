@@ -14,6 +14,9 @@ export function SiteToaster() {
       queue={c.queue}
       timer={c.timer}
       haptics={c.haptics}
+      swipe={c.swipe}
+      maxQueue={c.capQueue ? 2 : undefined}
+      dedupe={c.dedupeTitle ? "title" : "id"}
     />
   );
 }

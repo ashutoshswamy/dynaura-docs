@@ -7,7 +7,7 @@ import { PositionPicker } from "@/components/theme-demo";
 
 export const metadata: Metadata = pageMeta({
   title: "Recipes",
-  description: "dynaura recipes: actions, promises, progress, live activities, rich cards, queue and custom icons, each with a live demo.",
+  description: "dynaura recipes: actions, promises, progress, live activities, rich cards, queue, undo, custom bodies, callbacks and pause, each with a live demo.",
   path: "/docs/recipes",
 });
 
@@ -25,6 +25,13 @@ export default function Page() {
         { id: "cards", label: "Rich cards" },
         { id: "queue", label: "Queue" },
         { id: "icons", label: "Custom icons and slots" },
+        { id: "two-actions", label: "Two actions" },
+        { id: "custom-body", label: "Custom body" },
+        { id: "ids", label: "Ids and dedupe" },
+        { id: "callbacks", label: "Callbacks and click" },
+        { id: "pause", label: "Pause and resume" },
+        { id: "style", label: "Per-toast style" },
+        { id: "swipe", label: "Swipe direction" },
         { id: "sticky", label: "Sticky, update and dismiss" },
         { id: "positions", label: "Positions" },
       ]}
@@ -102,7 +109,7 @@ dynaura.live({ title: "Now playing", kind: "wave" }); // waveform instead of a t
 
       <H2 id="cards">Rich cards</H2>
       <p>
-        <code>variant: &quot;card&quot;</code> makes a header tab plus any custom body, joined by a curved notch. Card content inherits colors through <code>var(--dynaura-fg)</code>, <code>var(--dynaura-muted)</code> and <code>var(--state)</code>, so it follows any theme. The header tab follows <code>position</code>: centered for <code>top</code> and <code>bottom</code>, flush to the edge for <code>-left</code> and <code>-right</code>.
+        <code>variant: &quot;card&quot;</code> makes a header tab plus any custom body, joined by a curved notch. Card content inherits colors through <code>var(--dynaura-fg)</code>, <code>var(--dynaura-muted)</code> and <code>var(--state)</code>, so it follows any theme. The header tab follows <code>position</code>: centered for <code>top</code> and <code>bottom</code>, flush to the edge for <code>-left</code>, <code>-right</code>, <code>-start</code> and <code>-end</code>.
       </p>
       <Code
         code={`dynaura.info({
@@ -110,7 +117,7 @@ dynaura.live({ title: "Now playing", kind: "wave" }); // waveform instead of a t
   trailing: "40 min",
   variant: "card",
   duration: 9000,
-  description: <BoardingPass />, // any React node (a DOM Node in Vue, Svelte and vanilla)
+  description: <BoardingPass />, // any React node (a DOM Node in Vue, Svelte, Solid, Angular and vanilla)
   button: { title: "Show boarding pass", onClick: openPass },
 });`}
       />
@@ -127,6 +134,10 @@ dynaura.live({ title: "Now playing", kind: "wave" }); // waveform instead of a t
 // or per toast
 dynaura.info({ title: "Invite sent to Maya", queue: true, duration: 1600 });`}
       />
+      <p>
+        Cap the line with <code>maxQueue</code>: beyond it the oldest waiting toast is dropped. Collapse repeats with <code>dedupe=&quot;title&quot;</code>.
+      </p>
+      <Code lang="tsx" code={`<Toaster queue maxQueue={3} dedupe="title" />`} />
       <DemoBar>
         <Try id="queue">Queue three</Try>
       </DemoBar>
@@ -147,6 +158,89 @@ dynaura.info({
       <DemoBar>
         <Try id="icon">Custom icon</Try>
       </DemoBar>
+
+      <H2 id="two-actions">Two actions</H2>
+      <p>
+        <code>secondaryButton</code> sits next to <code>button</code>. Both dismiss the toast after the click, so undo-after-delete is one call.
+      </p>
+      <Code
+        code={`dynaura.success({
+  title: "File deleted",
+  duration: 6000,
+  button: { title: "Open trash", onClick: openTrash },
+  secondaryButton: { title: "Undo", onClick: restore },
+});`}
+      />
+      <DemoBar>
+        <Try id="secondary">Delete file</Try>
+      </DemoBar>
+
+      <H2 id="custom-body">Custom body</H2>
+      <p>
+        <code>dynaura.custom()</code> gives you the whole island: no title row and no card variant. Pass a string, a DOM Node or (in React) any element. It takes the usual options.
+      </p>
+      <Code lang="tsx" code={`dynaura.custom(<Volume level={64} />, { duration: 3000 });`} />
+      <DemoBar>
+        <Try id="custom">Show volume</Try>
+      </DemoBar>
+
+      <H2 id="ids">Ids and dedupe</H2>
+      <p>
+        Give a toast an <code>id</code> and showing it again updates it in place, restarting its timer, instead of stacking. Calls return that same id.
+      </p>
+      <Code code={`dynaura.info({ id: "save", title: \`Saved \${++n} times\` });`} />
+      <DemoBar>
+        <Try id="byId">Save repeatedly</Try>
+      </DemoBar>
+
+      <H2 id="callbacks">Callbacks and click</H2>
+      <p>
+        <code>onShow</code> fires when the toast appears, <code>onDismiss(reason)</code> when it ends (<code>&quot;timeout&quot;</code>, <code>&quot;swipe&quot;</code>, <code>&quot;button&quot;</code>, <code>&quot;escape&quot;</code> or <code>&quot;api&quot;</code>) and <code>onAutoClose</code> when its duration runs out. <code>onClick</code> fires on a tap of the island, not its buttons.
+      </p>
+      <Code
+        code={`dynaura.info({
+  title: "Wait, swipe or press Escape",
+  onShow: () => track("toast_shown"),
+  onDismiss: (reason) => track("toast_ended", reason),
+  onAutoClose: () => track("toast_timeout"),
+  onClick: () => openInbox(),
+});`}
+      />
+      <DemoBar>
+        <Try id="callbacks">Watch the reason</Try>
+        <Try id="clickable" variant="outline">Tap the island</Try>
+      </DemoBar>
+
+      <H2 id="pause">Pause and resume</H2>
+      <p>
+        <code>dynaura.pause()</code> freezes every timer, for example while a modal is open. Toasts shown meanwhile start frozen. Call <code>resume()</code> to release them.
+      </p>
+      <Code code={`dynaura.pause();   // modal opens\ndynaura.resume();  // modal closes`} />
+      <DemoBar>
+        <Try id="pause">Pause</Try>
+        <Try id="resume" variant="outline">Resume</Try>
+      </DemoBar>
+
+      <H2 id="style">Per-toast style</H2>
+      <p>
+        <code>className</code> and <code>style</code> apply to one toast only and are removed when the next one shows. CSS variables work, so a single toast can use its own theme without any global CSS.
+      </p>
+      <Code
+        code={`dynaura.success({
+  title: "Purple, just this once",
+  className: "mine",
+  style: { "--dynaura-bg": "#2b1055", "--dynaura-fg": "#fff", "--dynaura-success": "#7cffcb" },
+});`}
+      />
+      <DemoBar>
+        <Try id="styled">Show toast</Try>
+      </DemoBar>
+
+      <H2 id="swipe">Swipe direction</H2>
+      <p>
+        By default a swipe toward the anchored screen edge dismisses. Change it with the <code>swipe</code> Toaster option: <code>&quot;up&quot;</code>, <code>&quot;down&quot;</code>, <code>&quot;both&quot;</code> (either vertical way) or <code>&quot;none&quot;</code>. Horizontal swiping is not supported.
+      </p>
+      <Code lang="tsx" code={`<Toaster swipe="both" />`} />
 
       <H2 id="sticky">Sticky, update and dismiss</H2>
       <p>
@@ -170,7 +264,7 @@ dynaura.update(sync, { type: "success", title: "Synced", duration: 3500 });`}
 
       <H2 id="positions">Positions</H2>
       <p>
-        Six positions: <code>top</code>, <code>top-left</code>, <code>top-right</code>, <code>bottom</code>, <code>bottom-left</code> and <code>bottom-right</code>. Safe-area insets are added to <code>offset</code>. This changes the island on this page, so reload to reset it.
+        Six physical positions: <code>top</code>, <code>top-left</code>, <code>top-right</code>, <code>bottom</code>, <code>bottom-left</code> and <code>bottom-right</code>. For right-to-left pages use the logical <code>top-start</code>, <code>top-end</code>, <code>bottom-start</code> and <code>bottom-end</code>, which flip with the page direction. Safe-area insets are added to <code>offset</code>. This changes the island on this page, so reload to reset it.
       </p>
       <Code lang="tsx" code={`<Toaster position="bottom-right" offset={16} />`} />
       <PositionPicker />

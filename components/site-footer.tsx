@@ -59,7 +59,7 @@ export function SiteFooter() {
             <p className="mt-6 max-w-[30ch] font-display text-2xl leading-snug font-semibold tracking-[-0.02em]">
               Dynamic Island toasts for the web.
             </p>
-            <p className="mt-3 text-island-fg/65">Zero dependencies. React, Vue, Svelte and vanilla JS.</p>
+            <p className="mt-3 text-island-fg/65">Zero dependencies. React, Vue, Svelte, Solid, Angular and vanilla JS.</p>
             <a
               href="https://www.producthunt.com/products/dynaura/reviews/new?utm_source=badge-product_review&utm_medium=badge&utm_source=badge-dynaura"
               target="_blank"
@@ -69,7 +69,7 @@ export function SiteFooter() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="https://api.producthunt.com/widgets/embed-image/v1/product_review.svg?product_id=1378215&theme=light"
-                alt="dynaura - Dynamic Island toasts for React, Vue, Svelte and JS | Product Hunt"
+                alt="dynaura - Dynamic Island toasts for React, Vue, Svelte, Solid, Angular and JS | Product Hunt"
                 width={250}
                 height={54}
                 style={{ width: 250, height: 54 }}

@@ -49,6 +49,7 @@ export function BoardingPass() {
 }
 
 let stickyId: string | undefined;
+let saves = 0;
 
 export const demos = {
   success: () => dynaura.success({ title: "Saved", description: "Your changes are live." }),
@@ -119,6 +120,43 @@ export const demos = {
     dynaura.update(id, { type: "success", title: "Synced", description: "3 files updated.", duration: 3500 });
   },
   clear: () => dynaura.clear(),
+  secondary: () =>
+    dynaura.success({
+      title: "File deleted",
+      description: "report-final.pdf moved to trash.",
+      duration: 6000,
+      button: { title: "Open trash", onClick: () => dynaura.info("Trash opened") },
+      secondaryButton: { title: "Undo", onClick: () => dynaura.success("Restored") },
+    }),
+  custom: () =>
+    dynaura.custom(
+      <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 18px", minWidth: 200 }}>
+        <strong>Volume</strong>
+        <div style={{ flex: 1, height: 6, borderRadius: 3, background: "rgba(128,128,128,.35)" }}>
+          <div style={{ width: "64%", height: "100%", borderRadius: 3, background: "currentColor" }} />
+        </div>
+        <span>64</span>
+      </div>,
+      { duration: 3000 },
+    ),
+  byId: () => dynaura.info({ id: "save", title: `Saved ${++saves} times` }),
+  callbacks: () =>
+    dynaura.info({
+      title: "Wait, swipe or press Escape",
+      duration: 4000,
+      onDismiss: (reason) => dynaura.success({ title: `onDismiss: ${reason}`, id: "reason", duration: 2000 }),
+    }),
+  clickable: () => dynaura.info({ title: "Tap the island", duration: 6000, onClick: () => dynaura.success({ id: "tap", title: "onClick fired" }) }),
+  pause: () => {
+    dynaura.info({ title: "Timers are paused", description: "Press Resume to continue.", duration: 3000 });
+    dynaura.pause();
+  },
+  resume: () => dynaura.resume(),
+  styled: () =>
+    dynaura.success({
+      title: "Purple, just this once",
+      style: { "--dynaura-bg": "#2b1055", "--dynaura-fg": "#fff", "--dynaura-success": "#7cffcb" },
+    }),
 } satisfies Record<string, () => unknown>;
 
 export type DemoId = keyof typeof demos;

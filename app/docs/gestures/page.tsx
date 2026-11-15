@@ -5,7 +5,7 @@ import { Try } from "@/components/demos";
 
 export const metadata: Metadata = pageMeta({
   title: "Gestures",
-  description: "How dynaura reacts to hover, tap, long-press and swipe.",
+  description: "How dynaura reacts to hover, tap, long-press, swipe and the Escape key.",
   path: "/docs/gestures",
 });
 
@@ -27,7 +27,9 @@ export default function Page() {
           [<strong key="1">Hover</strong>, "Expands and pauses the timer. Leaving resumes with the exact time left."],
           [<strong key="2">Tap</strong>, "Pins an expandable toast open and paused. Tap outside to unpin."],
           [<strong key="3">Long-press</strong>, "Pins, with haptic feedback."],
-          [<strong key="4">Swipe toward the screen edge</strong>, "Dismisses. A short swipe snaps back."],
+          [<strong key="4">Swipe toward the screen edge</strong>, "Dismisses. A short swipe snaps back. Direction is set by the swipe option: edge (default), up, down, both or none."],
+          [<strong key="5">Escape</strong>, "Dismisses the current toast."],
+          [<strong key="6">Tap or click</strong>, "Fires the toast's onClick, if it has one."],
         ]}
       />
       <p>

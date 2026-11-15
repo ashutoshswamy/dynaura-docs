@@ -66,7 +66,7 @@ export default function Page() {
 
       <H2 id="font">Font</H2>
       <p>
-        The default font is Bricolage Grotesque, loaded by an <code>@import</code> on the first line of <code>dynaura/styles.css</code>. To self-host or skip the request, copy the stylesheet without that line and set <code>--dynaura-font</code>.
+        The default font is Bricolage Grotesque, loaded by an <code>@import</code> on the first line of <code>dynaura/styles.css</code>. To self-host or skip the request, import <code>dynaura/styles-no-font.css</code> instead (the same stylesheet without that line) and set <code>--dynaura-font</code>.
       </p>
       <Callout>
         <p>Card content inherits the toast colors through var(--dynaura-fg), var(--dynaura-muted) and var(--state), so rich cards follow any theme.</p>

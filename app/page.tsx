@@ -5,7 +5,7 @@ import { SITE, NPM, REPO, author, jsonLd, pageMeta } from "@/lib/seo";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { BoltIcon, BookOpenIcon, PaintBrushIcon, PuzzlePieceIcon } from "@heroicons/react/24/outline";
 import { docIcons } from "@/components/doc-icons";
-import { siJavascript, siReact, siSvelte, siVuedotjs } from "simple-icons";
+import { siAngular, siJavascript, siReact, siSolid, siSvelte, siVuedotjs } from "simple-icons";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { CodeTabsBlock, highlight } from "@/components/code-block";
@@ -19,9 +19,9 @@ import { WordRoll } from "@/components/word-roll";
 
 export const metadata: Metadata = pageMeta({
   title: "dynaura",
-  absoluteTitle: "dynaura | Dynamic Island toasts for React, Vue, Svelte and JS",
+  absoluteTitle: "dynaura | Dynamic Island toasts for React, Vue, Svelte, Solid, Angular and JS",
   description:
-    "dynaura shows toasts as one Dynamic Island style pill that spring-morphs between states and swipes away. Zero dependencies, typed, themeable. React, Vue, Svelte and vanilla JS.",
+    "dynaura shows toasts as one Dynamic Island style pill that spring-morphs between states and swipes away. Zero dependencies, typed, themeable. React, Vue, Svelte, Solid, Angular and vanilla JS.",
   path: "/",
 });
 
@@ -40,7 +40,7 @@ const homeLd = [
     softwareHelp: `${SITE}/docs`,
     codeRepository: REPO,
     license: "https://opensource.org/licenses/MIT",
-    keywords: "toast, notification, dynamic island, react toast, vue toast, svelte toast, animation, spring",
+    keywords: "toast, notification, dynamic island, react toast, vue toast, svelte toast, solid toast, angular toast, animation, spring",
     author,
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   },
@@ -58,6 +58,8 @@ const frameworks = [
   { name: "React", icon: siReact, from: 'import { Toaster, dynaura } from "dynaura"' },
   { name: "Vue", icon: siVuedotjs, from: 'import { Toaster, dynaura } from "dynaura/vue"' },
   { name: "Svelte", icon: siSvelte, from: 'import { toaster, dynaura } from "dynaura/svelte"' },
+  { name: "Solid", icon: siSolid, from: 'import { Toaster, dynaura } from "dynaura/solid"' },
+  { name: "Angular", icon: siAngular, from: 'import { injectToaster, dynaura } from "dynaura/angular"' },
   { name: "Vanilla JS", icon: siJavascript, from: 'import { createToaster } from "dynaura/vanilla"' },
 ];
 
@@ -140,7 +142,7 @@ export default async function Home() {
             <h1 className="hero-in font-display text-[clamp(3.25rem,10.5vw,6rem)] leading-[1.02] font-bold tracking-[-0.04em] text-balance">
               <span className="block">Island toasts</span>
               <span className="block">
-                for <WordRoll words={["React", "Vue", "Svelte", "vanilla JS"]} />
+                for <WordRoll words={["React", "Vue", "Svelte", "Solid", "Angular", "vanilla JS"]} />
               </span>
             </h1>
             <p className="hero-in mt-8 max-w-[28rem] text-lg leading-relaxed text-muted" style={{ animationDelay: "90ms" }}>

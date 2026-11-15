@@ -75,7 +75,7 @@ export default function Page() {
 
       <H2 id="frameworks">Frameworks</H2>
       <p>
-        The React adapter is the default import. Vue, Svelte and vanilla JS are thin wrappers over the same core, each on its own entry point. See{" "}
+        The React adapter is the default import. Vue, Svelte, Solid, Angular and vanilla JS are thin wrappers over the same core, each on its own entry point. See{" "}
         <Link href="/docs/quick-start">Quick start</Link> for each one, or jump to the <Link href="/docs/api">API reference</Link>.
       </p>
     </DocPage>

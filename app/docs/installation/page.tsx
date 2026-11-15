@@ -37,13 +37,13 @@ export default function Page() {
       <Code lang="ts" code={`import "dynaura/styles.css";`} />
       <Callout title="About the font">
         <p>
-          The stylesheet loads Bricolage Grotesque from Google Fonts with an <code>@import</code> on its first line. To self-host or satisfy a strict CSP, copy the stylesheet without that line and set <code>--dynaura-font</code>.
+          The stylesheet loads Bricolage Grotesque from Google Fonts with an <code>@import</code> on its first line. To self-host or satisfy a strict CSP, import <code>dynaura/styles-no-font.css</code> instead (the same stylesheet without that line) and set <code>--dynaura-font</code>.
         </p>
       </Callout>
 
       <H2 id="peers">Peer dependencies</H2>
       <p>
-        React 18 or newer is needed for the default entry. Vue 3 or newer is needed for <code>dynaura/vue</code>. Svelte and vanilla need nothing. All peers are optional, so install only the framework you use.
+        React 18 or newer is needed for the default entry. Vue 3 or newer is needed for <code>dynaura/vue</code>, Solid 1.6 or newer for <code>dynaura/solid</code>, and Angular 16 or newer for <code>dynaura/angular</code>. Svelte and vanilla need nothing. All peers are optional, so install only the framework you use.
       </p>
 
       <H2 id="typescript">TypeScript</H2>

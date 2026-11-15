@@ -24,14 +24,14 @@ const faq = [
     q: "The font is wrong, or I need to avoid Google Fonts",
     a: (
       <p>
-        The stylesheet&apos;s first line is an <code>@import</code> for Bricolage Grotesque. Copy the stylesheet without it, or set <code>--dynaura-font</code> to your own font. This is also the fix for a strict Content Security Policy.
+        The stylesheet&apos;s first line is an <code>@import</code> for Bricolage Grotesque. Import <code>dynaura/styles-no-font.css</code> instead, and set <code>--dynaura-font</code> to your own font. This is also the fix for a strict Content Security Policy.
       </p>
     ),
   },
   {
     id: "multiple",
     q: "Can I have more than one Toaster?",
-    a: <p>No. State is a single global, so mount one Toaster per page.</p>,
+    a: <p>No. State is a single global, so mount one Toaster per page. In development a second one logs a console warning.</p>,
   },
   {
     id: "ssr",
@@ -53,10 +53,10 @@ const faq = [
   },
   {
     id: "react-nodes",
-    q: "My description is a React component but it does not show in Vue or Svelte",
+    q: "My description is a React component but it does not show outside React",
     a: (
       <p>
-        React nodes only work in the React adapter. In Vue, Svelte and vanilla, pass a string or a DOM <code>Node</code>.
+        React nodes only work in the React adapter. In Vue, Svelte, Solid, Angular and vanilla, pass a string or a DOM <code>Node</code>.
       </p>
     ),
   },
@@ -64,11 +64,11 @@ const faq = [
 
 const faqText: Record<string, string> = {
   "nothing-appears": "Check that <Toaster /> is mounted once and that dynaura/styles.css is imported. Without the stylesheet the island renders unstyled.",
-  "font": "The stylesheet's first line is an @import for Bricolage Grotesque. Copy the stylesheet without it, or set --dynaura-font to your own font. This is also the fix for a strict Content Security Policy.",
-  "multiple": "No. State is a single global, so mount one Toaster per page.",
+  "font": "The stylesheet's first line is an @import for Bricolage Grotesque. Import dynaura/styles-no-font.css instead, and set --dynaura-font to your own font. This is also the fix for a strict Content Security Policy.",
+  "multiple": "No. State is a single global, so mount one Toaster per page. In development a second one logs a console warning.",
   "ssr": "Yes. The Toaster renders nothing on the server and mounts on the client. Calling dynaura.* on the server only sets state and shows nothing.",
   "ios": "Add viewport-fit=cover to your viewport meta tag. dynaura adds env(safe-area-inset-*) to the offset.",
-  "react-nodes": "React nodes only work in the React adapter. In Vue, Svelte and vanilla, pass a string or a DOM Node."
+  "react-nodes": "React nodes only work in the React adapter. In Vue, Svelte, Solid, Angular and vanilla, pass a string or a DOM Node."
 };
 
 const shortLabel: Record<string, string> = {
@@ -77,7 +77,7 @@ const shortLabel: Record<string, string> = {
   multiple: "More than one Toaster",
   ssr: "SSR",
   ios: "iOS notch and home bar",
-  "react-nodes": "React nodes in Vue or Svelte",
+  "react-nodes": "React nodes outside React",
 };
 
 export default function Page() {

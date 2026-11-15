@@ -1,6 +1,6 @@
 # dynaura docs
 
-Documentation site for [dynaura](https://www.npmjs.com/package/dynaura), Dynamic Island style toasts for React, Vue, Svelte and vanilla JS.
+Documentation site for [dynaura](https://www.npmjs.com/package/dynaura), Dynamic Island style toasts for React, Vue, Svelte, Solid, Angular and vanilla JS.
 
 - Site: https://dynaura.ashutoshswamy.in
 - Package: https://www.npmjs.com/package/dynaura

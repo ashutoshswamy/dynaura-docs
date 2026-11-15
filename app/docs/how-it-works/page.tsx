@@ -28,7 +28,7 @@ export default function Page() {
         <li><strong>Size morph.</strong> The core measures the compact row and the expanded content, then transitions <code>width</code>, <code>height</code> and <code>border-radius</code> between them with a CSS <code>linear()</code> spring.</li>
         <li><strong>Card variant.</strong> The header tab and body are drawn as one <code>clip-path</code>. The core recomputes the outline every frame while the size transitions.</li>
         <li><strong>Timers.</strong> Remaining time is tracked, so hover, drag and pin pause and resume exactly. The timer bar is a CSS animation that pauses with them.</li>
-        <li><strong>Adapters.</strong> Vue, Svelte and vanilla are thin wrappers over <code>createToaster()</code>. React adds portals so <code>description</code>, <code>icon</code> and <code>trailing</code> can be React nodes.</li>
+        <li><strong>Adapters.</strong> Vue, Svelte, Solid, Angular and vanilla are thin wrappers over <code>createToaster()</code>. React adds portals so <code>description</code>, <code>icon</code> and <code>trailing</code> can be React nodes.</li>
       </ul>
 
       <H2 id="adapter">Adding an adapter</H2>
