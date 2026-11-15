@@ -92,7 +92,7 @@ export function ExamplesBrowser({ items }: { items: Item[] }) {
         ))}
       </div>
 
-      <div className="mt-8 grid items-start gap-4 xl:grid-cols-2">
+      <div className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(min(100%,19rem),1fr))] gap-4">
         {shown.map((e) => (
           <div key={e.id} className="flex flex-col justify-between gap-5 rounded-[20px] border border-line bg-surface p-6">
             <div>

@@ -112,6 +112,39 @@ import "dynaura/styles.css";
 <button on:click={() => dynaura.success("Saved")}>Save</button>`,
   },
   {
+    label: "Solid",
+    lang: "tsx",
+    code: `import { Toaster, dynaura } from "dynaura/solid";
+import "dynaura/styles.css";
+
+export default function App() {
+  return (
+    <>
+      <Toaster position="top" theme="system" />
+      <button onClick={() => dynaura.success("Saved")}>Save</button>
+    </>
+  );
+}`,
+  },
+  {
+    label: "Angular",
+    lang: "ts",
+    code: `import { Component } from "@angular/core";
+import { dynaura, injectToaster } from "dynaura/angular";
+
+@Component({
+  selector: "app-root",
+  standalone: true,
+  template: \`<button (click)="save()">Save</button>\`,
+})
+export class AppComponent {
+  toaster = injectToaster({ position: "top", theme: "system" });
+  save() {
+    dynaura.success("Saved");
+  }
+}`,
+  },
+  {
     label: "Vanilla JS",
     lang: "js",
     code: `import { createToaster, dynaura } from "dynaura/vanilla";
@@ -170,10 +203,10 @@ export default async function Home() {
         </section>
         </div>
 
-        {/* adapters: one core, four entry points. Big full-width rows that invert on hover; each links to the quick start. */}
+        {/* adapters: one core, six entry points. Big full-width rows that invert on hover; each links to the quick start. */}
         <section className="border-t border-line">
           <div className="mx-auto max-w-[1400px] px-4 py-20 sm:px-6 lg:py-28">
-            <h2 className="font-display text-4xl font-semibold tracking-[-0.03em] sm:text-5xl">One core. Four adapters.</h2>
+            <h2 className="font-display text-4xl font-semibold tracking-[-0.03em] sm:text-5xl">One core. Six adapters.</h2>
             <p className="mt-4 max-w-[52ch] text-lg text-muted">
               Every adapter drives the same island. Pick your framework, change one import.
             </p>
