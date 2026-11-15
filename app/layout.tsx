@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, DM_Sans } from "next/font/google";
-import "./dynaura.css";
+import "dynaura/styles-no-font.css";
 import "./globals.css";
 import { SiteToaster } from "@/components/site-toaster";
 import { ScrollTop } from "@/components/scroll-top";
