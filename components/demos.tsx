@@ -13,6 +13,15 @@ import {
 } from "@heroicons/react/24/outline";
 import type { ReactNode } from "react";
 
+const people = [
+  { name: "Ana Ruiz", presence: "online" as const },
+  { name: "Ben Okafor", presence: "away" as const },
+  { name: "Chiara Bellini" },
+  { name: "Dev Patel", presence: "busy" as const },
+  { name: "Elif Kaya" },
+  { name: "Finn Larsen" },
+];
+
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export function BoardingPass() {
@@ -119,6 +128,28 @@ export const demos = {
     await wait(1500);
     dynaura.update(id, { type: "success", title: "Synced", description: "3 files updated.", duration: 3500 });
   },
+  avatar: () => dynaura.info({ title: "Ana is typing", typing: true, avatar: people[0], duration: 5000 }),
+  avatarGroup: () =>
+    dynaura.info({
+      title: "6 new comments",
+      description: "Tap a face. The +2 chip lists the rest.",
+      avatar: people,
+      avatarMax: 4,
+      duration: 8000,
+      onAvatarClick: (i) =>
+        i < 4
+          ? dynaura.success({ title: `${people[i].name}'s profile`, id: "face", duration: 1800 })
+          : dynaura.info({ title: "Also in this thread", id: "face", avatar: people.slice(4), duration: 2400 }),
+    }),
+  avatarCard: () =>
+    dynaura.info({
+      title: "Meet your host",
+      description: "Design lead, joined 2021. Replies within the hour.",
+      avatar: people[0],
+      avatarPosition: "card",
+      duration: 8000,
+      button: { title: "Say hello", onClick: () => dynaura.success("Message sent") },
+    }),
   clear: () => dynaura.clear(),
   secondary: () =>
     dynaura.success({

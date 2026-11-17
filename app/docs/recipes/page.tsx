@@ -7,7 +7,7 @@ import { PositionPicker } from "@/components/theme-demo";
 
 export const metadata: Metadata = pageMeta({
   title: "Recipes",
-  description: "dynaura recipes: actions, promises, progress, live activities, rich cards, queue, undo, custom bodies, callbacks and pause, each with a live demo.",
+  description: "dynaura recipes: actions, promises, progress, live activities, rich cards, avatars, queue, undo, custom bodies, callbacks and pause, each with a live demo.",
   path: "/docs/recipes",
 });
 
@@ -25,6 +25,7 @@ export default function Page() {
         { id: "cards", label: "Rich cards" },
         { id: "queue", label: "Queue" },
         { id: "icons", label: "Custom icons and slots" },
+        { id: "avatars", label: "Avatars" },
         { id: "two-actions", label: "Two actions" },
         { id: "custom-body", label: "Custom body" },
         { id: "ids", label: "Ids and dedupe" },
@@ -157,6 +158,51 @@ dynaura.info({
       />
       <DemoBar>
         <Try id="icon">Custom icon</Try>
+      </DemoBar>
+
+      <H2 id="avatars">Avatars</H2>
+      <p>
+        <code>avatar</code> takes a URL, an <code>{"{ src?, name?, presence? }"}</code> object, or an array of either. With no <code>src</code>, or when an image fails to load, the face becomes a gradient disc with initials. <code>typing</code> adds animated dots after the title.
+      </p>
+      <Code
+        code={`// a name is enough: gradient + initials, which is also the fallback for a broken image
+dynaura.info({
+  title: "Ana is typing",
+  typing: true,
+  avatar: { name: "Ana Ruiz", src: anaUrl, presence: "online" },
+});`}
+      />
+      <DemoBar>
+        <Try id="avatar">Typing</Try>
+      </DemoBar>
+      <p>
+        An array becomes an overlapping group. <code>avatarMax</code> (default 3) sets how many faces show before a <code>+N</code> chip. <code>onAvatarClick(i)</code> fires on a tap, or Enter and Space on a focused face; the chip reports <code>avatarMax</code>. It does not trigger <code>onClick</code> or pin the toast.
+      </p>
+      <Code
+        code={`dynaura.info({
+  title: "6 new comments",
+  avatar: people,        // (string | { src?, name?, presence? })[]
+  avatarMax: 4,          // 4 faces, then "+2"
+  onAvatarClick: (i) => openProfile(people[i]),
+});`}
+      />
+      <DemoBar>
+        <Try id="avatarGroup">Group</Try>
+      </DemoBar>
+      <p>
+        <code>avatarPosition: &quot;card&quot;</code> turns the toast into a boarding-pass style card: header tab, big faces with name and presence, a perforated tear line, then the description and buttons. It implies <code>variant: &quot;card&quot;</code>.
+      </p>
+      <Code
+        code={`dynaura.info({
+  title: "Meet your host",
+  description: "Design lead, joined 2021.",
+  avatar: { name: "Ana Ruiz", src: anaUrl, presence: "online" },
+  avatarPosition: "card",
+  button: { title: "Say hello", onClick: sayHello },
+});`}
+      />
+      <DemoBar>
+        <Try id="avatarCard">Host card</Try>
       </DemoBar>
 
       <H2 id="two-actions">Two actions</H2>

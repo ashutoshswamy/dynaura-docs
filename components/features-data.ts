@@ -33,6 +33,18 @@ export const features: Feature[] = [
 });`,
   },
   {
+    id: "avatars",
+    title: "Avatars",
+    body: "Faces, groups with a +N chip, presence dots, a name-and-gradient fallback and a boarding-pass style card.",
+    href: "/docs/recipes#avatars",
+    lang: "tsx",
+    code: `dynaura.info({
+  title: "Ana is typing",
+  typing: true,
+  avatar: { name: "Ana Ruiz", presence: "online" },
+});`,
+  },
+  {
     id: "live",
     title: "Live activities",
     body: "Sticky toasts with a running timer, or an animated waveform for audio.",

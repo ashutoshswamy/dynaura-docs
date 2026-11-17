@@ -68,6 +68,20 @@ export default function Page() {
           { name: "icon", type: "string | Node | ReactNode", def: "built-in", desc: "Replaces the leading icon." },
           { name: "trailing", type: "string | Node | ReactNode", desc: <>Small right-side slot, e.g. {c('"2 min"')}.</> },
           {
+            name: "avatar",
+            type: "string | AvatarItem | (string | AvatarItem)[]",
+            desc: <>Round face(s) in place of the icon. {c("AvatarItem")} is {c("{ src?, name?, presence? }")}. With no {c("src")}, or a failed load, the face is a gradient disc with initials. An array overlaps into a group. {c("icon")} wins over a leading avatar.</>,
+          },
+          { name: "avatarMax", type: "number", def: "3", desc: <>Faces shown before the rest collapse into a {c("+N")} chip.</> },
+          {
+            name: "avatarPosition",
+            type: '"leading" | "card"',
+            def: '"leading"',
+            desc: <>{c('"card"')}: a boarding-pass style card (implies {c('variant: "card"')}) with big faces, name, presence and a tear line before the description.</>,
+          },
+          { name: "onAvatarClick", type: "(i: number) => void", desc: <>Tap, or Enter / Space, on a face. {c("i")} is its index; the {c("+N")} chip reports {c("avatarMax")}. Does not trigger {c("onClick")} or pin the toast.</> },
+          { name: "typing", type: "boolean", def: "false", desc: "Animated typing dots after the title. Static under reduced motion." },
+          {
             name: "duration",
             type: "number | null",
             def: "4000",
@@ -152,7 +166,7 @@ export default function Page() {
 
       <H2 id="typescript">TypeScript</H2>
       <p>
-        Exported types: {c("ToastOptions")}, {c("ToastType")}, {c("ToasterProps")}, {c("CustomTheme")}, {c("Position")}, {c("DismissReason")} and {c("Content")}.
+        Exported types: {c("ToastOptions")}, {c("ToastType")}, {c("ToasterProps")}, {c("CustomTheme")}, {c("Position")}, {c("DismissReason")}, {c("AvatarItem")}, {c("Presence")} and {c("Content")}.
       </p>
       <Code lang="ts" code={`import type { ToastOptions, CustomTheme } from "dynaura";`} />
     </DocPage>

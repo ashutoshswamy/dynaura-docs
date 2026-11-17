@@ -15,6 +15,7 @@ import {
   SwatchIcon,
   TicketIcon,
   ShieldCheckIcon,
+  UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import { PlayIcon } from "@heroicons/react/16/solid";
 import { demos } from "./demos";
@@ -26,6 +27,7 @@ type Action = { label: string; run: () => unknown };
 const icons: Record<string, typeof TicketIcon> = {
   morph: ArrowsRightLeftIcon,
   cards: TicketIcon,
+  avatars: UserGroupIcon,
   live: MicrophoneIcon,
   progress: ChartBarIcon,
   touch: HandRaisedIcon,
@@ -41,6 +43,11 @@ const actions: Record<string, Action[]> = {
     { label: "Error with action", run: demos.error },
   ],
   cards: [{ label: "Boarding pass", run: demos.card }],
+  avatars: [
+    { label: "Typing", run: demos.avatar },
+    { label: "Group", run: demos.avatarGroup },
+    { label: "Host card", run: demos.avatarCard },
+  ],
   live: [
     { label: "Timer", run: demos.live },
     { label: "Waveform", run: demos.wave },

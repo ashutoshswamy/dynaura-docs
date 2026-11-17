@@ -26,6 +26,7 @@ export default function Page() {
         <li><code>onClick</code> is pointer only. Put keyboard-reachable actions in <code>button</code> or <code>secondaryButton</code>.</li>
         <li>Action buttons are keyboard focusable, with a visible focus ring.</li>
         <li>Under <code>prefers-reduced-motion: reduce</code>, motion is cut to near-instant. Loading spinners keep spinning.</li>
+        <li>Avatar images have empty alt text, so the title carries the meaning. With <code>onAvatarClick</code>, faces become focusable buttons that answer Enter and Space. Typing dots are hidden from screen readers.</li>
         <li>Rolling digits expose their value through <code>aria-label</code>.</li>
         <li>Text is rendered as text. Toast strings can never inject HTML.</li>
       </ul>

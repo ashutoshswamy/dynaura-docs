@@ -10,6 +10,7 @@ import {
   ShieldCheckIcon,
   SwatchIcon,
   TicketIcon,
+  UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import { DocPage, H2, DemoBar } from "@/components/doc-page";
 import { Code } from "@/components/code-block";
@@ -24,11 +25,12 @@ export const metadata: Metadata = pageMeta({
 const why = [
   { Icon: ArrowsRightLeftIcon, title: "One island, real motion", body: "A single pill morphs between compact and expanded using a CSS linear() spring. No animation library." },
   { Icon: TicketIcon, title: "Rich cards", body: "A header tab plus any custom body. Flight passes, ride trackers, receipts." },
+  { Icon: UserGroupIcon, title: "Avatars", body: "Faces, groups with a +N chip, presence dots, a name-and-gradient fallback and a boarding-pass style card." },
   { Icon: MicrophoneIcon, title: "Live activities", body: "Sticky toasts with a running timer or an animated waveform." },
   { Icon: ChartBarIcon, title: "Progress that feels alive", body: "A value bar and rolling digits, updated in place with dynaura.update." },
   { Icon: HandRaisedIcon, title: "Built for touch", body: "Swipe to dismiss, tap or long-press to pin, hover to pause." },
   { Icon: SwatchIcon, title: "Themeable", body: "Dark, light, system, or your own colors. Everything is a CSS variable." },
-  { Icon: CodeBracketIcon, title: "Any framework", body: "React, Vue, Svelte, or plain JS, all on one shared core." },
+  { Icon: CodeBracketIcon, title: "Any framework", body: "React, Vue, Svelte, Solid, Angular, or plain JS, all on one shared core." },
   { Icon: ShieldCheckIcon, title: "Light and accessible", body: "Zero dependencies, typed, aria-live, and prefers-reduced-motion respected." },
 ];
 

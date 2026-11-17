@@ -59,6 +59,9 @@ const runs: Record<string, () => unknown> = {
       button: { title: "Reply", onClick: ok("Reply sent") },
     }),
   queue: demos.queue,
+  typing: demos.avatar,
+  thread: demos.avatarGroup,
+  host: demos.avatarCard,
   follow: () => dynaura.success({ title: "You followed Maya", confetti: true }),
   order: () =>
     dynaura.success({

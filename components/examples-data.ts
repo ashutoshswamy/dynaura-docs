@@ -136,6 +136,42 @@ dynaura.update(id, { type: "success", title: "Upload complete", progress: undefi
 });`,
   },
   {
+    id: "typing",
+    category: "Social",
+    title: "Someone is typing",
+    description: "A face with a presence dot and animated typing dots.",
+    code: `dynaura.info({
+  title: "Ana is typing",
+  typing: true,
+  avatar: { name: "Ana Ruiz", presence: "online" },
+});`,
+  },
+  {
+    id: "thread",
+    category: "Social",
+    title: "Group activity",
+    description: "Overlapping faces with a +N chip. Tap a face to react.",
+    code: `dynaura.info({
+  title: "6 new comments",
+  avatar: people,
+  avatarMax: 4,
+  onAvatarClick: (i) => openProfile(people[i]),
+});`,
+  },
+  {
+    id: "host",
+    category: "Cards",
+    title: "Host card",
+    description: "A boarding-pass style card built from avatarPosition.",
+    code: `dynaura.info({
+  title: "Meet your host",
+  description: "Design lead, joined 2021.",
+  avatar: { name: "Ana Ruiz", presence: "online" },
+  avatarPosition: "card",
+  button: { title: "Say hello", onClick: sayHello },
+});`,
+  },
+  {
     id: "queue",
     category: "Social",
     title: "Queued activity",
